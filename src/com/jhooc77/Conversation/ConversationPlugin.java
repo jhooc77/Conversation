@@ -1,7 +1,5 @@
 package com.jhooc77.Conversation;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -35,17 +33,12 @@ public class ConversationPlugin extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		new Task(this).run();
-		try {
-			Image image = ImageIO.read(getResource("image.png"));
-			image.getScaledInstance(128, 128, Image.SCALE_SMOOTH);
-			BufferedImage newImage = new BufferedImage(128, 128, BufferedImage.TYPE_INT_RGB);
-			Graphics2D graphics2D = newImage.createGraphics();
-			graphics2D.drawImage(image, 0, 0, 128, 128, null);
-			graphics2D.dispose();
-            this.image = newImage;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			try {
+				image = ImageIO.read(getResource("image.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		getServer().getPluginManager().registerEvents(this, this);
 		
 		//대화문 넣는장면입니다. 선택지는 3개만가능
@@ -58,7 +51,7 @@ public class ConversationPlugin extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
-		PlayingConversation.getAllPlayingConversation().values().forEach(cp -> cp.stop());
+		PlayingConversation.disable();
 	}
 	
 	@EventHandler

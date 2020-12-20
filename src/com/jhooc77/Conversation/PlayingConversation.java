@@ -1,6 +1,7 @@
 package com.jhooc77.Conversation;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ItemFrame;
@@ -66,6 +67,7 @@ public class PlayingConversation {
 		ConversationStartEvent event = new ConversationStartEvent(this);
 		Bukkit.getPluginManager().callEvent(event);
 		if (event.isCancelled()) return;
+		frame.setVisible(false);
 		entity.teleport(entity.getLocation().setDirection(player.getLocation().subtract(entity.getLocation()).toVector()));
 		entity.setAI(false);
 		conversation.display(this);
@@ -121,6 +123,21 @@ public class PlayingConversation {
 
 	public static boolean hasPlayingConversation(Player player) {
 		return list.containsKey(player);
+	}
+
+	public void forceRemove() {
+		frame.remove();
+		entity.setAI(true);
+		list.remove(player);
+	}
+
+	public static void disable() {
+		HashMap<Player, PlayingConversation> clone = new HashMap<Player, PlayingConversation>();
+		for (Entry<Player, PlayingConversation> entry : list.entrySet()) {
+		    clone.put(entry.getKey(), entry.getValue());
+		}
+		clone.values().forEach(cp -> cp.forceRemove());
+		
 	}
 	
 	
