@@ -1,0 +1,5 @@
+name: Conversation
+main: com.jhooc77.Conversation.ConversationPlugin
+author: BabyMandarinDuck
+version: 1.0
+api-version: 1.13
